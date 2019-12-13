@@ -1,0 +1,25 @@
+{
+    "name": "ericjank/baidusdk",
+    "description": "百度SDK",
+    "keywords": [
+        "baidusdk",
+        "baidu",
+        "sdk"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ericjank",
+            "email": "50172189@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.3",
+    },
+    "autoload": {
+        "psr-4": {
+            "BaiduAiSupport\\": "src/"
+        }
+    }
+}
