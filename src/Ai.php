@@ -18,7 +18,7 @@ class Ai
      * @param  string $text
      * @return array
      */
-    public function poetry(string $text, string $access_token)
+    static public function poetry(string $text, string $access_token)
     {
         $util = new Util();
 
