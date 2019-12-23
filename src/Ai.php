@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace BaiduAiSupport;
 
 use BaiduAiSupport\Util;
+use Hyperf\Contract\StdoutLoggerInterface;
+use Hyperf\Utils\ApplicationContext;
 
 class Ai
 {
@@ -37,7 +39,15 @@ class Ai
             $content = $res->getBody();
             if ( $content) {
                 $content = json_decode((string)$content, true);
-                return ( is_array($content) && isset($content['poem']) ) ? $content['poem'][0] : '';
+
+                if ( is_array($content) && isset($content['poem'][0]) )
+                {
+                    return $content['poem'][0];
+                }
+
+                $logger = ApplicationContext::getContainer()->get(StdoutLoggerInterface::class);
+                $logger->error(sprintf('[%s] Failed %s.', "调用写诗接口 ", json_encode($content)));
+                return isset($content['error_code']) ? $content['error_code'] : '';
             }
         }
 
