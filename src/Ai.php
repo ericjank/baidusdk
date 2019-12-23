@@ -37,7 +37,7 @@ class Ai
             $content = $res->getBody();
             if ( $content) {
                 $content = json_decode((string)$content, true);
-                return is_array($content) ? $content['poem'][0] : '';
+                return ( is_array($content) && isset($content['poem']) ) ? $content['poem'][0] : '';
             }
         }
 
