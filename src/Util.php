@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace BaiduAiSupport;
 
 use Hyperf\Guzzle\ClientFactory;
+use Hyperf\Utils\ApplicationContext;
 
 class Util
 {
@@ -27,11 +28,11 @@ class Util
      */
     private $clientFactory;
 
-
     public function __construct(array $config = []) {
         $this->timeout = isset($config['timeout']) ? $config['timeout'] : 5;
 
-        $this->clientFactory = new ClientFactory();
+
+        $this->clientFactory = new ClientFactory(ApplicationContext::getContainer());
         $this->client = $this->clientFactory->create($config);
     }
 
