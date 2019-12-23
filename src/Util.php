@@ -8,24 +8,31 @@ declare(strict_types=1);
 
 namespace BaiduAiSupport;
 
-use GuzzleHttp\Client;
+use Hyperf\Guzzle\ClientFactory;
 
 class Util
 {
     /**
      * @var null|int
      */
-    protected $timeout = 2;
+    protected $timeout = 5;
 
     /**
      * @var null|object
      */
     public $client;
 
+    /**
+     * @var \Hyperf\Guzzle\ClientFactory
+     */
+    private $clientFactory;
+
 
     public function __construct(array $config = []) {
-        $this->timeout = isset($config['timeout']) ? $config['timeout'] : 2;
-        $this->client = new Client([ 'timeout' => $this->timeout ]);
+        $this->timeout = isset($config['timeout']) ? $config['timeout'] : 5;
+
+        $this->clientFactory = new ClientFactory();
+        $this->client = $this->clientFactory->create($config);
     }
 
     /**
