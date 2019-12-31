@@ -54,4 +54,53 @@ class Ai
         return false;
     }
 
+    /**
+     * 人脸融合
+     * @param  string $text
+     * @return array
+     * @throws [type] [<description>]
+     */
+    static public function faceMerge(string $targetCode, string $tempCode, string $access_token)
+    {
+        $util = new Util();
+
+        $content = '';
+        $res = $util->client->request('POST', 'https://aip.baidubce.com/rest/2.0/face/v1/merge?access_token=' . $access_token, [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'body' => json_encode([
+                'image_template' => [
+                    'image' => $tempCode,
+                    'image_type' => 'BASE64',
+                    'quality_control' => 'NORMAL',
+                ], 
+                'image_target' => [
+                    'image' => $targetCode,
+                    'image_type' => 'BASE64',
+                    'quality_control' => 'NORMAL'
+                ],
+            ])
+        ]);
+
+        if ( $res->getStatusCode() == 200 ) {
+            $content = $res->getBody();
+            if ( $content) {
+                $content = json_decode((string)$content, true);
+
+                if ( is_array($content) && $content['error_code'] == 0 )
+                {
+                    return $content;
+                }
+
+                $logger = ApplicationContext::getContainer()->get(StdoutLoggerInterface::class);
+                $logger->error(sprintf('[%s] Failed %s.', "调用人脸融合接口 ", json_encode($content)));
+                
+                return $content;
+            }
+        }
+
+        return false;
+    }
+
 }
