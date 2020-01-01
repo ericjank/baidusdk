@@ -78,7 +78,7 @@ class Ai
                 'image_target' => [
                     'image' => $targetCode,
                     'image_type' => 'BASE64',
-                    'quality_control' => 'NORMAL'
+                    'quality_control' => 'HIGH'
                 ],
             ])
         ]);
